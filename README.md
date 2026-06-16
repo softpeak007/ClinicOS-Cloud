@@ -2,65 +2,81 @@
 
 ### Security-First Unified Medical Workspace
 
-ClinicOS Cloud is a modern healthcare management platform designed to streamline clinic operations through intelligent workflows, secure cloud-ready architecture, and a unified digital experience.
+ClinicOS Cloud is a modern healthcare management platform designed to help clinics streamline operations through intelligent workflows, patient management, appointment scheduling, billing, analytics, and AI-assisted document processing.
 
-The platform combines patient management, appointment scheduling, medical reports, billing, analytics, and AI-assisted workflows into a single enterprise-grade workspace.
+Built with modern web technologies and cloud-ready architecture, ClinicOS Cloud provides a unified workspace that enables healthcare professionals to manage daily operations efficiently from a single platform.
 
 ---
 
-## 🚀 Features
+## 🚀 Live Demo
+
+🌐 Live Application
+
+https://clinic-os-cloud.vercel.app/
+
+🎥 YouTube Demo
+
+https://youtu.be/oSSZrq27LrU
+
+---
+
+## ✨ Features
 
 ### 👨‍⚕️ Patient Management
 
-Manage patient profiles, medical history, reports, and clinical records from a centralized dashboard.
+Manage patient profiles, medical history, reports, and healthcare records from a centralized dashboard.
 
 ### 📅 Appointment Scheduling
 
-Organize consultations, track schedules, and manage daily clinical operations efficiently.
+Schedule consultations, manage appointments, and optimize daily clinical workflows.
 
 ### 📄 Medical Reports
 
-Store, access, and manage clinical documents through a secure workflow.
+Upload, organize, and access medical documents through a streamlined digital workflow.
+
+### 🤖 AI-Powered Report Summaries
+
+Leverage AI to generate concise summaries from uploaded medical reports and documents.
 
 ### 💳 Billing & Invoicing
 
-Track invoices, payments, billing status, and financial activities.
-
-### 🤖 AI-Powered Assistance
-
-Generate intelligent report summaries and accelerate clinical workflows using AI.
+Track invoices, payments, billing status, and healthcare service records.
 
 ### 📊 Analytics Dashboard
 
-Monitor operational metrics, appointments, billing performance, and patient activity.
+Monitor clinic activity, appointments, revenue metrics, and operational performance.
 
 ### 🔒 Security & Audit Logging
 
-Maintain accountability through activity logs and structured access controls.
+Maintain accountability through structured audit logs and secure access management.
+
+### ☁️ Cloud-Ready Infrastructure
+
+Designed for future integration with cloud services including authentication, databases, and secure file storage.
 
 ---
 
-## 🏗️ Architecture Overview
+## 🏗️ Architecture
 
 ```text
 Users
-  │
-  ▼
+   │
+   ▼
 Next.js Frontend
-  │
-  ▼
+   │
+   ▼
 API Layer
-  │
-  ├───────────────┐
-  ▼               ▼
+   │
+   ├──────────────┐
+   ▼              ▼
 AI Services    Database Layer
-  │               │
-  └──────┬────────┘
-         ▼
+   │              │
+   └──────┬───────┘
+          ▼
  Secure File Storage
 ```
 
-Designed with a modular architecture that supports future cloud integrations and scalable deployment strategies.
+The platform follows a modular architecture that supports scalability, maintainability, and future cloud expansion.
 
 ---
 
@@ -80,7 +96,7 @@ Designed with a modular architecture that supports future cloud integrations and
 * Recharts
 * Lucide Icons
 
-### AI
+### AI Integration
 
 * Google Gemini API
 
@@ -89,7 +105,7 @@ Designed with a modular architecture that supports future cloud integrations and
 * AWS Cognito Ready
 * PostgreSQL Ready
 * Amazon S3 Ready
-* Vercel Ready
+* Vercel Deployment
 
 ---
 
@@ -127,7 +143,7 @@ AWS_COGNITO_CLIENT_ID=
 AWS_S3_BUCKET_NAME=
 ```
 
-Never commit secrets, API keys, or credentials to GitHub.
+Never commit API keys, credentials, or secrets to GitHub.
 
 ---
 
@@ -145,13 +161,13 @@ Install dependencies:
 npm install
 ```
 
-Create environment file:
+Create environment variables:
 
 ```bash
 cp .env.example .env
 ```
 
-Start development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -165,22 +181,16 @@ http://localhost:3000
 
 ---
 
-## 🌐 Live Demo
-
-https://clinic-os-cloud.vercel.app/
-
----
-
 ## 🎯 Roadmap
 
 * AI Clinical Assistant
+* Advanced Analytics
 * Secure Patient Portal
 * Multi-Clinic Administration
 * Cloud File Management
-* Advanced Analytics
-* Notification System
 * Mobile Application
 * Enterprise Integrations
+* Notification System
 
 ---
 
@@ -191,3 +201,5 @@ Licensed under the MIT License.
 ---
 
 ### ⭐ Built with Next.js, TypeScript, AI, and Modern Cloud Architecture
+
+If you found this project interesting, consider giving the repository a star.
