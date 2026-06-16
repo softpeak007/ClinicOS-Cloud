@@ -1,0 +1,20 @@
+node_modules/
+.next/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Build and deployment targets
+dist/
+build/
+.vercel/
+
+# Credentials, secrets, and private keys
+credentials/
+service-account*.json
+*secret-key*
+*.pem
+*.pfx
+*.jks
