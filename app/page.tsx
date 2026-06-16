@@ -13,7 +13,7 @@ import {
 // Components imports
 import LandingPage from '@/components/LandingPage';
 import AuthPage from '@/components/AuthPage';
-import DashboardOverview from '@/components/DashboardOverview';
+import Dashboard from '@/components/Dashboard';
 import PatientsRegistry from '@/components/PatientsRegistry';
 import AppointmentsManager from '@/components/AppointmentsManager';
 import RecordsLockbox from '@/components/RecordsLockbox';
@@ -431,7 +431,7 @@ export default function Home() {
     switch (activeTab) {
       case 'dashboard':
         return (
-          <DashboardOverview 
+          <Dashboard 
             onNavigation={(tab) => {
               if (tab === 'add-patient' || tab === 'patients') {
                 setActiveTab('patients');
