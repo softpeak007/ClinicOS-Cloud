@@ -21,13 +21,28 @@ import {
 } from "@aws-sdk/client-cognito-identity-provider";
 
 // Cognito Actions
+function enrichCognitoError(err: any): string {
+  const clientId = process.env.AWS_COGNITO_CLIENT_ID;
+  const clientSecret = process.env.AWS_COGNITO_CLIENT_SECRET;
+
+  if (clientSecret && clientId && clientSecret === clientId) {
+    return "Error: Unable to verify secret hash. [DETECTED MISCONFIGURATION]: Your AWS_COGNITO_CLIENT_SECRET is configured with your Client ID instead of the 51-character App Client Secret from the AWS Console. Please copy the correct Client Secret from AWS and update your environment variables.";
+  }
+
+  if (err.name === "NotAuthorizedException" && err.message?.includes("Unable to verify secret hash")) {
+    return "Error: Unable to verify secret hash. This usually means the AWS_COGNITO_CLIENT_SECRET environment variable is incorrect or doesn't match the client secret generated in your AWS Cognito User Pool Client settings.";
+  }
+
+  return err.message || String(err);
+}
+
 export async function handleSignUp(formData: any) {
   try {
     const { email, password, name, role } = formData;
     const response = await cognitoSignUp(email, password, name, role);
     return { success: true, data: JSON.parse(JSON.stringify(response)) };
   } catch (err: any) {
-    return { success: false, error: err.message || String(err) };
+    return { success: false, error: enrichCognitoError(err) };
   }
 }
 
@@ -37,7 +52,7 @@ export async function handleSignIn(formData: any) {
     const response = await cognitoSignIn(email, password);
     return { success: true, data: JSON.parse(JSON.stringify(response)) };
   } catch (err: any) {
-    return { success: false, error: err.message || String(err) };
+    return { success: false, error: enrichCognitoError(err) };
   }
 }
 
@@ -47,7 +62,7 @@ export async function handleVerifyOTP(formData: any) {
     const response = await cognitoVerifyOTP(email, code);
     return { success: true, data: JSON.parse(JSON.stringify(response)) };
   } catch (err: any) {
-    return { success: false, error: err.message || String(err) };
+    return { success: false, error: enrichCognitoError(err) };
   }
 }
 
@@ -57,7 +72,7 @@ export async function handleForgotPassword(formData: any) {
     const response = await cognitoForgotPassword(email);
     return { success: true, data: JSON.parse(JSON.stringify(response)) };
   } catch (err: any) {
-    return { success: false, error: err.message || String(err) };
+    return { success: false, error: enrichCognitoError(err) };
   }
 }
 
@@ -67,7 +82,7 @@ export async function handleConfirmForgotPassword(formData: any) {
     const response = await cognitoConfirmForgotPassword(email, code, newPassword);
     return { success: true, data: JSON.parse(JSON.stringify(response)) };
   } catch (err: any) {
-    return { success: false, error: err.message || String(err) };
+    return { success: false, error: enrichCognitoError(err) };
   }
 }
 
@@ -77,7 +92,7 @@ export async function handleResendConfirmationCode(formData: any) {
     const response = await cognitoResendConfirmationCode(email);
     return { success: true, data: JSON.parse(JSON.stringify(response)) };
   } catch (err: any) {
-    return { success: false, error: err.message || String(err) };
+    return { success: false, error: enrichCognitoError(err) };
   }
 }
 
@@ -131,6 +146,11 @@ export async function runCognitoAudit() {
   logs.push(`   - AWS_COGNITO_USER_POOL_ID: ${userPoolId ? `LOADED (${userPoolId.slice(0, 8)}...)` : "MISSING"}`);
   logs.push(`   - AWS_COGNITO_CLIENT_ID: ${clientId ? `LOADED (${clientId.slice(0, 6)}...)` : "MISSING"}`);
   logs.push(`   - AWS_COGNITO_CLIENT_SECRET: ${clientSecret ? `LOADED (length: ${clientSecret.length})` : "MISSING / NOT PRESENT"}`);
+
+  if (clientSecret && clientId && clientSecret === clientId) {
+    logs.push(`⚠️ WARNING: AWS_COGNITO_CLIENT_SECRET is identical to AWS_COGNITO_CLIENT_ID!`);
+    logs.push(`   This is a configuration error. The Client Secret must be the 51-character generated secret from the AWS Console under App Client Settings, NOT the Client ID itself.`);
+  }
 
   // 2. Verify SECRET_HASH inclusion in SDK commands
   logs.push(`🔍 Verifying SECRET_HASH presence in AWS Cognito SDK commands:`);
@@ -261,7 +281,10 @@ export async function runCognitoAudit() {
     };
 
     // Determine root cause and resolution
-    if (err.message?.includes("placeholder") || err.message?.includes("Cannot run live test")) {
+    if (clientSecret && clientId && clientSecret === clientId) {
+      rootCause = "AWS_COGNITO_CLIENT_SECRET is misconfigured with the same value as AWS_COGNITO_CLIENT_ID.";
+      resolution = "Your AWS_COGNITO_CLIENT_SECRET environment variable is set to your Client ID instead of the 51-character App Client Secret from the AWS Console. Please copy the actual Client Secret from AWS Cognito App Client Settings and update your configuration.";
+    } else if (err.message?.includes("placeholder") || err.message?.includes("Cannot run live test")) {
       rootCause = "Cognito credentials in environment variables are placeholder values.";
       resolution = "Please populate your real .env variables (AWS_COGNITO_USER_POOL_ID, AWS_COGNITO_CLIENT_ID, and AWS_COGNITO_CLIENT_SECRET if needed) in the Environment Setup tab or system settings.";
     } else if (err.name === "ResourceNotFoundException") {
