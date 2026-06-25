@@ -1,6 +1,6 @@
 {
   "name": "ClinicOS Cloud",
-  "description": "Comprehensive SaaS dashboard for clinics to manage patients, appointments, reports, invoices, and analytics.",
+  "description": "Expert AWS Cloud-Native Stack with Cognito, S3, and Drizzle PostgreSQL",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

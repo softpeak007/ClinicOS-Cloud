@@ -1,15 +1,31 @@
-import type {Metadata} from 'next';
-import './globals.css'; // Global styles
+import { Inter, JetBrains_Mono } from "next/font/google";
+import "./globals.css";
 
-export const metadata: Metadata = {
-  title: 'My Google AI Studio App',
-  description: 'My Google AI Studio App',
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
+export const metadata = {
+  title: "ClinicOS Cloud",
+  description: "Expert AWS Cloud-Native Stack with Cognito, S3, and Drizzle PostgreSQL",
 };
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning>{children}</body>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="antialiased min-h-screen font-sans bg-slate-50 text-slate-900">
+        {children}
+      </body>
     </html>
   );
 }

@@ -18,6 +18,7 @@ interface Report {
   category: string;
   summary?: string;
   created_at: string;
+  downloadUrl?: string;
 }
 
 interface Patient {
@@ -307,7 +308,13 @@ export default function RecordsLockbox({ initialPatientId, onNavigateToPatientCh
                         <Sparkles className="h-3 w-3" /> Copilot Summary
                       </button>
                       <button
-                        onClick={() => alert(`GDPR presigned-link mapped safely:\nhttps://s3.us-east-1.amazonaws.com/claims/${rep.s3Key}?Signature=AES256`)}
+                        onClick={() => {
+                          if (rep.downloadUrl) {
+                            window.open(rep.downloadUrl, '_blank');
+                          } else {
+                            alert(`GDPR presigned-link mapped safely:\nhttps://s3.us-east-1.amazonaws.com/claims/${rep.s3Key}?Signature=AES256`);
+                          }
+                        }}
                         className="p-1.5 text-slate-550 hover:text-slate-855 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors"
                         title="Download Presigned Link"
                       >

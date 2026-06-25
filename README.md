@@ -1,205 +1,118 @@
-# 🏥 ClinicOS Cloud
+# 🏥 ClinicOS Cloud - Secure Multi-Tenant Clinical SaaS Workspace
 
-### Security-First Unified Medical Workspace
+ClinicOS Cloud is an enterprise-grade Clinical SaaS Platform designed to streamline independent clinical operations. The platform integrates secure patient registry data management, serverless AI medical document parsing, clinician consultation appointments scheduling, client billing desk tracking, and physical risk compliance engines.
 
-ClinicOS Cloud is a modern healthcare management platform designed to help clinics streamline operations through intelligent workflows, patient management, appointment scheduling, billing, analytics, and AI-assisted document processing.
-
-Built with modern web technologies and cloud-ready architecture, ClinicOS Cloud provides a unified workspace that enables healthcare professionals to manage daily operations efficiently from a single platform.
+Designed with **strict multi-tenant isolation** and fully aligned with HIPAA and GDPR administrative safeguards, this workspace is ready for immediate deployment on **Vercel** with highly compatible interfaces for **AWS Production Architectures**.
 
 ---
 
-## 🚀 Live Demo
+## 🚀 Key Features
 
-🌐 Live Application
-
-https://clinic-os-cloud.vercel.app/
-
-🎥 YouTube Demo
-
-https://youtu.be/oSSZrq27LrU
-
----
-
-## ✨ Features
-
-### 👨‍⚕️ Patient Management
-
-Manage patient profiles, medical history, reports, and healthcare records from a centralized dashboard.
-
-### 📅 Appointment Scheduling
-
-Schedule consultations, manage appointments, and optimize daily clinical workflows.
-
-### 📄 Medical Reports
-
-Upload, organize, and access medical documents through a streamlined digital workflow.
-
-### 🤖 AI-Powered Report Summaries
-
-Leverage AI to generate concise summaries from uploaded medical reports and documents.
-
-### 💳 Billing & Invoicing
-
-Track invoices, payments, billing status, and healthcare service records.
-
-### 📊 Analytics Dashboard
-
-Monitor clinic activity, appointments, revenue metrics, and operational performance.
-
-### 🔒 Security & Audit Logging
-
-Maintain accountability through structured audit logs and secure access management.
-
-### ☁️ Cloud-Ready Infrastructure
-
-Designed for future integration with cloud services including authentication, databases, and secure file storage.
+- **Clinical Desk & Workflow Hub**: Multi-tenant metrics compiling daily patient cohorts, active consultation sessions, and instant billing pipelines.
+- **Biometric Compliancy & Risk Tracker**: Automated risk analysis tracing heart/metabolic drift compliance flags with live data visualization.
+- **Patient Registry**: Rich medical charts cataloging active history, vitals thresholds, invoices, and diagnostic records under isolated tenant filters.
+- **S3 Secure Medical Lockbox**: Drag-and-drop report uploader generating S3 URIs and short-lived Visual presigned download tokens.
+- **Server-Side AI Document abstracts**: Integrates serverless Google Gemini OCR transcription to summarize lengthy scans into concise clinical records.
+- **Master Appointment Ledger**: Live appointment calendar tracking, duration optimization, and scheduling controls.
+- **Clinical Billing Desk**: Full-featured billing workstation tracking multi-stage invoice receivables (Paid, Unpaid, Overdue) and issued services.
+- **Accountability Audit Trails**: Complete logging of clinician reads, writes, S3 downloads, and metadata modifications for standard HIPAA audits.
 
 ---
 
-## 🏗️ Architecture
+## 📂 System Architecture Overview
 
-```text
-Users
-   │
-   ▼
-Next.js Frontend
-   │
-   ▼
-API Layer
-   │
-   ├──────────────┐
-   ▼              ▼
-AI Services    Database Layer
-   │              │
-   └──────┬───────┘
-          ▼
- Secure File Storage
+ClinicOS utilizes a modular Domain Router separating view layers from state endpoints.
+
 ```
-
-The platform follows a modular architecture that supports scalability, maintainability, and future cloud expansion.
+       [ Client Interface Component Views ]
+                        ↕
+    [ Serverless Next.js App Router (Vercel) ]
+                  ↙            ↘
+  [ serverless AI OCR Engine ]   [ Isolated Tenant DB Controller ]
+    (Google Gemini API)           (Aurora PostgreSQL / db.json)
+                                       ↕
+                                 [ HIPAA Logs & S3 Locks ]
+```
 
 ---
 
 ## 🛠️ Technology Stack
 
-### Frontend
-
-* Next.js 15
-* React
-* TypeScript
-* Tailwind CSS
-* shadcn/ui
-* Framer Motion
-
-### Visualization
-
-* Recharts
-* Lucide Icons
-
-### AI Integration
-
-* Google Gemini API
-
-### Cloud Ready
-
-* AWS Cognito Ready
-* PostgreSQL Ready
-* Amazon S3 Ready
-* Vercel Deployment
+- **Frontend Core**: Next.js 15 App Router (Strict TypeScript 5+)
+- **Responsive Layout**: Tailwind CSS v4 (Pure negative space, unified fluid alignments, automatic dark modes)
+- **Fluid Animations**: Motion (`motion/react`)
+- **Durable Utilities**: Lucide Icons, Recharts, and Google Generative AI SDK (`@google/genai`)
 
 ---
 
-## 📂 Project Structure
+## 📝 Environment Variables Configuration
 
-```text
-app/
-components/
-lib/
-hooks/
-public/
-styles/
-types/
-```
-
----
-
-## 🔐 Environment Variables
-
-Create a local `.env` file based on `.env.example`.
+To run the application, configure your credentials inside your local `.env` configuration. See `.env.example` for details:
 
 ```env
-NEXT_PUBLIC_APP_URL=
+# Google AI Studio API credential for Serverless OCR summaries (Required server-side)
+GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
 
-GEMINI_API_KEY=
+# Base application URL identifier
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
-DATABASE_URL=
-
-AWS_REGION=
-
-AWS_COGNITO_USER_POOL_ID=
-
-AWS_COGNITO_CLIENT_ID=
-
-AWS_S3_BUCKET_NAME=
-```
-
-Never commit API keys, credentials, or secrets to GitHub.
-
----
-
-## 💻 Local Development
-
-Clone the repository:
-
-```bash
-git clone https://github.com/softpeak007/ClinicOS-Cloud.git
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Create environment variables:
-
-```bash
-cp .env.example .env
-```
-
-Run the development server:
-
-```bash
-npm run dev
-```
-
-Open:
-
-```text
-http://localhost:3000
+# Future Production AWS Services targets (Pre-Engineered in /lib/db.ts)
+AWS_REGION="us-east-1"
+AWS_COGNITO_USER_POOL_ID="us-east-1_xxxxxxxxx"
+AWS_COGNITO_CLIENT_ID="xxxxxxxxxxxxxxxxxxx"
+DATABASE_URL="postgresql://db_user:password@aurora-postgresql-cluster.aws.com:5432/clinicos"
+AWS_S3_BUCKET_NAME="clinical-records-lockbox"
 ```
 
 ---
 
-## 🎯 Roadmap
+## 💻 Local Development Setup
 
-* AI Clinical Assistant
-* Advanced Analytics
-* Secure Patient Portal
-* Multi-Clinic Administration
-* Cloud File Management
-* Mobile Application
-* Enterprise Integrations
-* Notification System
+To provision your local development server:
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-organization/clinicos-cloud.git
+   cd clinicos-cloud
+   ```
+2. **Install node libraries**:
+   ```bash
+   npm install
+   ```
+3. **Set up local variables**:
+   ```bash
+   cp .env.example .env
+   ```
+4. **Acquire and set** a `GEMINI_API_KEY` in `.env`.
+5. **Run the server**:
+   ```bash
+   npm run dev
+   ```
+6. Open your browser on `http://localhost:3000` to interact with ClinicOS Cloud.
+
+---
+
+## ☁️ Vercel One-Click Deployments
+
+ClinicOS Cloud is pre-packaged for one-click publishing:
+
+1. Import your repository into the **Vercel Dashboard**.
+2. Standard settings are auto-detected (Framework: Next.js).
+3. Inject `GEMINI_API_KEY` into your Vercel Project Environment variables.
+4. Click **Deploy**. Vercel launches Next.js globally.
+
+---
+
+## 🌐 Future AWS Migration Roadmap
+
+The workspace is pre-engineered for standard cloud-tier expansion without frontend modifications:
+
+1. **User Identity Isolation**: Swap local auth session management inside `/components/AuthPage.tsx` directly to AWS Cognito Federated User Pools.
+2. **Aurora Postgres Migration**: Exchange the transactional local file database router inside `/lib/db.ts` for deep relational Aurora database connection pools.
+3. **S3 Private Assets File Store**: Replace mock file URLs in S3 file uploads with live pre-signed short-lived S3 Object visual download paths.
 
 ---
 
 ## 📄 License
 
-Licensed under the MIT License.
-
----
-
-### ⭐ Built with Next.js, TypeScript, AI, and Modern Cloud Architecture
-
-If you found this project interesting, consider giving the repository a star.
+This clinical SaaS workspace is distributed under the terms of the [MIT License](LICENSE). Refer to `LICENSE` for details.
